@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.SignalR;
 using TypescriptHubGenerator;
 
+// todo no dependencies argument parser goes here...
 var assemblyPath = "";
 var outputFolder = "";
 

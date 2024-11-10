@@ -7,7 +7,30 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <WarningsAsErrors>true</WarningsAsErrors>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>vforteli.TypeScriptHubGenerator</PackageId>
+        <VersionPrefix>0.1.0</VersionPrefix>
+        <Title>TypeScriptHubGenerator</Title>
+        <Authors>Verner Fortelius</Authors>
+        <Description>Generate typescript client from SignalR hubs</Description>
+        <Copyright>Copyright 2024 Verner Fortelius</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/vforteli/dotnet-typescript-hub-generator</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/vforteli/dotnet-typescript-hub-generator</RepositoryUrl>
+        <PackageLicense>https://github.com/vforteli/dotnet-typescript-hub-generator/blob/main/LICENSE.md</PackageLicense>
+        <PackageReleaseNotes>Initial test release</PackageReleaseNotes>
+        <PackageTags>typescript code generation signalr hub</PackageTags>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="vforteli.TypeScriptModelGenerator" Version="0.1.0-prerelease.20241109165819"/>
