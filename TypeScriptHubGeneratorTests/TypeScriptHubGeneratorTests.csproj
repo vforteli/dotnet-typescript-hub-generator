@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TypescriptHubGenerator\TypescriptHubGenerator.csproj"/>
+        <ProjectReference Include="..\TypeScriptHubGenerator\TypeScriptHubGenerator.csproj"/>
     </ItemGroup>
 
 </Project>
