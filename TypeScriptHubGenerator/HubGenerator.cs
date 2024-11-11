@@ -181,7 +181,6 @@ public static class HubGenerator
 
     public static string CreateReactContext(string hubName)
     {
-        var hubVariableName = hubName.ToCamelCase();
         const string contextTemplate =
             """
             import { HubConnection, HubConnectionState } from "@microsoft/signalr";
@@ -213,13 +212,12 @@ public static class HubGenerator
 
         return contextTemplate
             .Replace("{{hubName}}", hubName)
-            .Replace("{{hubVariableName}}", hubVariableName);
+            .Replace("{{hubVariableName}}", hubName.ToCamelCase());
     }
 
 
     public static string CreateReactContextHook(string hubName)
     {
-        var hubVariableName = hubName.ToCamelCase();
         const string contextHookTemplate =
             """
             import { useContext } from "react";
