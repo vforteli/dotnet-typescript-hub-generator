@@ -11,6 +11,53 @@ public static class HubGenerator
 {
     private const string Import = """import type { {{typeName}} } from "./types/{{typeName}}";""";
 
+
+    /// <summary>
+    /// Generate hub files and write them to output folder
+    /// </summary>
+    public static async Task CreateHubFilesAsync(string assemblyPath, string outputFolder, bool createReactContext)
+    {
+        if (!File.Exists(assemblyPath))
+        {
+            Console.Error.WriteLine("Assembly not found?! Check path and ensure it has been built");
+            Environment.Exit(1);
+        }
+
+        var hubTypes = Assembly.LoadFile(assemblyPath)
+            .GetTypes()
+            .Where(t => t.BaseType?.BaseType ==
+                        typeof(Hub)); // this will find generic hubs with an interface defined for operations
+
+
+        Directory.CreateDirectory(outputFolder);
+
+        foreach (var hubType in hubTypes)
+        {
+            var hubFiles = CreateFromHub(hubType);
+            var hubClientName = $"{hubType.Name}Client";
+
+            await File.WriteAllTextAsync(Path.Combine(outputFolder, $"{hubClientName}.ts"), hubFiles.HubFile);
+
+            Directory.CreateDirectory(Path.Combine(outputFolder, "types"));
+
+            foreach (var file in hubFiles.TypeFiles)
+            {
+                await File.WriteAllTextAsync(Path.Combine(outputFolder, "types", $"{file.Key}.ts"), file.Value);
+            }
+
+            if (createReactContext)
+            {
+                var contextFile = CreateReactContext(hubClientName);
+                await File.WriteAllTextAsync(Path.Combine(outputFolder, $"{hubClientName}Context.tsx"), contextFile);
+
+                var contextHookFile = CreateReactContextHook(hubClientName);
+                await File.WriteAllTextAsync(Path.Combine(outputFolder, $"{hubClientName}ContextHook.tsx"),
+                    contextHookFile);
+            }
+        }
+    }
+
+
     /// <summary>
     /// Create typescript client from hub
     /// </summary>

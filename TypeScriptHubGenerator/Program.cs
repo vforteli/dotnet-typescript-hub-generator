@@ -1,45 +1,31 @@
-using System.Reflection;
-using Microsoft.AspNetCore.SignalR;
+using System.CommandLine;
 using TypescriptHubGenerator;
 
-// todo no dependencies argument parser goes here...
-var assemblyPath = "";
-var outputFolder = "";
+var assemblyPathOption = new Option<string>(
+        name: "--assembly-path",
+        description: "Path to the assembly to generate the typescript for")
+    { IsRequired = true, };
+assemblyPathOption.AddAlias("-f");
 
-if (!File.Exists(assemblyPath))
-{
-    Console.Error.WriteLine("Assembly not found?! Check path and ensure it has been built");
-    Environment.Exit(1);
-}
+var outputFolderOption = new Option<string>(
+        name: "--output-folder",
+        description: "Path to the output folder")
+    { IsRequired = true, };
+outputFolderOption.AddAlias("-o");
 
-var hubTypes = Assembly.LoadFile(assemblyPath)
-    .GetTypes()
-    .Where(t => t.BaseType?.BaseType ==
-                typeof(Hub)); // this will find generic hubs with an interface defined for operations
+var createReactContextOption = new Option<bool>(
+        name: "--create-react-context",
+        description: "Generate react context and hook")
+    { IsRequired = false, };
 
-
-Directory.CreateDirectory(outputFolder);
-
-foreach (var hubType in hubTypes)
-{
-    var hubFiles = HubGenerator.CreateFromHub(hubType);
-    var hubClientName = $"{hubType.Name}Client";
-
-    await File.WriteAllTextAsync(Path.Combine(outputFolder, $"{hubClientName}.ts"), hubFiles.HubFile);
-
-    Directory.CreateDirectory(Path.Combine(outputFolder, "types"));
-
-    foreach (var file in hubFiles.TypeFiles)
+var rootCommand = new RootCommand("Generate TypeScript hub client");
+rootCommand.AddOption(assemblyPathOption);
+rootCommand.AddOption(outputFolderOption);
+rootCommand.SetHandler(
+    async (assemblyPath, outputFolder, createReactContext) =>
     {
-        await File.WriteAllTextAsync(Path.Combine(outputFolder, "types", $"{file.Key}.ts"), file.Value);
-    }
+        await HubGenerator.CreateHubFilesAsync(assemblyPath, outputFolder, createReactContext);
+    },
+    assemblyPathOption, outputFolderOption, createReactContextOption);
 
-    var contextFile = HubGenerator.CreateReactContext(hubClientName);
-    await File.WriteAllTextAsync(Path.Combine(outputFolder, $"{hubClientName}Context.tsx"), contextFile);
-
-    var contextHookFile = HubGenerator.CreateReactContextHook(hubClientName);
-    await File.WriteAllTextAsync(Path.Combine(outputFolder, $"{hubClientName}ContextHook.tsx"), contextHookFile);
-}
-
-
-Console.WriteLine("Done...");
+return rootCommand.InvokeAsync(args).Result;
