@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="vforteli.TypeScriptModelGenerator" Version="0.1.0-prerelease.8" />
+    <PackageReference Include="vforteli.TypeScriptModelGenerator" Version="0.1.0-prerelease.10" />
   </ItemGroup>
 
 </Project>

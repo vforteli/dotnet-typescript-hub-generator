@@ -94,6 +94,8 @@ public class Tests
               someDateTime: string;
               someNullableDateTime: string | null;
               someEvent: EventType;
+              someStringDictionary: Record<string, string>;
+              someEnumDictionary: Record<EventType, string>;
             };
             """;
 

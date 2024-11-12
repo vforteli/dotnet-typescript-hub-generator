@@ -20,6 +20,8 @@ public record SomeObjectModel
     public required DateTime SomeDateTime { get; init; }
     public required DateTime? SomeNullableDateTime { get; init; }
     public required EventType SomeEvent { get; init; }
+    public required Dictionary<string, string> SomeStringDictionary { get; init; }
+    public required Dictionary<EventType, string> SomeEnumDictionary { get; init; }
 }
 
 public record EventModel(EventType EventType, string Message);
