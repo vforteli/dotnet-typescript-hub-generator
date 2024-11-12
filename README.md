@@ -12,7 +12,14 @@ For React, a context and hook is created.
 
 # Using the tool
 
-WIP :D
+```
+# run the tool
+dotnet hubgenerator \
+    --generate \
+    --assembly-file-path "some/folder/assembly.dll" \
+    --output-folder "some/other/folder" \
+    --react-context
+```
 
 # Using the client
 
