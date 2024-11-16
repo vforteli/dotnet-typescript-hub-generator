@@ -8,6 +8,8 @@
         <Nullable>enable</Nullable>
         <WarningsAsErrors>true</WarningsAsErrors>
         <IsPackable>true</IsPackable>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>dotnet-tshubgen</ToolCommandName>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -33,7 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="vforteli.TypeScriptModelGenerator" Version="0.1.0-prerelease.10" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="vforteli.TypeScriptModelGenerator" Version="0.1.0-prerelease.14" />
   </ItemGroup>
 
 </Project>
