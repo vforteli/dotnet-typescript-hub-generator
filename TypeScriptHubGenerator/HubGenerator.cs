@@ -72,7 +72,7 @@ public static class HubGenerator
 
         if (hubType.BaseType == null)
         {
-            throw new ArgumentNullException("Hub is not generic... nothing to do here...");
+            throw new ArgumentNullException(nameof(hubType), "Hub is not generic... nothing to do here...");
         }
 
         var types = new Dictionary<string, string>();
@@ -126,7 +126,7 @@ public static class HubGenerator
             .Select(o =>
                 new KeyValuePair<string, TsType>(
                     o.Name?.ToCamelCase() ??
-                    throw new ArgumentNullException("Cannot have parameters without name here..."),
+                    throw new ArgumentNullException(nameof(o.Name), "Cannot have parameters without name here..."),
                     TypeScriptModelGenerator.ParseParameterInfo(o, processedTypes)))
             .ToImmutableList();
 
@@ -160,7 +160,7 @@ public static class HubGenerator
             .Select(o =>
                 new KeyValuePair<string, TsType>(
                     o.Name?.ToCamelCase() ??
-                    throw new ArgumentNullException("Cannot have parameters without name here..."),
+                    throw new ArgumentNullException(nameof(o.Name), "Cannot have parameters without name here..."),
                     TypeScriptModelGenerator.ParseParameterInfo(o, processedTypes)))
             .ToImmutableList();
 

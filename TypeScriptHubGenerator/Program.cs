@@ -21,6 +21,7 @@ var createReactContextOption = new Option<bool>(
 var rootCommand = new RootCommand("Generate TypeScript hub client");
 rootCommand.AddOption(assemblyPathOption);
 rootCommand.AddOption(outputFolderOption);
+rootCommand.AddOption(createReactContextOption);
 rootCommand.SetHandler(
     async (assemblyPath, outputFolder, createReactContext) =>
     {

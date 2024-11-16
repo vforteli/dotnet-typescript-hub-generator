@@ -4,21 +4,18 @@ Create TypeScript clients from SignalR hubs.
 
 For React, a context and hook is created.
 
-# Todo
-
-- Package as a dotnet tool
-- Proper cli arguments for configuring stuff
-- React context and hooks should be optional
-
 # Using the tool
 
 ```
+# install globally (or locally)
+dotnet tool install --global vforteli.TypeScriptHubGenerator
+
 # run the tool
-dotnet hubgenerator \
+dotnet tshubgen \
     --generate \
-    --assembly-file-path "some/folder/assembly.dll" \
+    --assembly-path "some/folder/assembly.dll" \
     --output-folder "some/other/folder" \
-    --react-context
+     --create-react-context
 ```
 
 # Using the client
@@ -30,37 +27,36 @@ Using the client requires installing @microsoft/signalr (tested with version 8.0
 ```typescript jsx
 // Configure hub in eg App.tsx
 function App() {
-    const hubConnection = new HubConnectionBuilder()
-        .withAutomaticReconnect()
-        .withUrl("someurl")
-        .build();
+  const hubConnection = new HubConnectionBuilder()
+    .withAutomaticReconnect()
+    .withUrl("someurl")
+    .build();
 
-    return (
-        <SomeHubClientContextProvider hubConnection={hubConnection}>
-            <>...</>
-        </SomeHubClientContextProvider>
-    );
+  return (
+    <SomeHubClientContextProvider hubConnection={hubConnection}>
+      <>...</>
+    </SomeHubClientContextProvider>
+  );
 }
 ```
+
 ```typescript jsx
 // Use in some component
 export const SomeComponent = () => {
-    const someHub = useSomeHubClient();
+  const someHub = useSomeHubClient();
 
-    const handleSomethingHappened = useCallback((message: string | null) => {
-        console.debug("hub: " + message);
-    }, []);
+  const handleSomethingHappened = useCallback((message: string | null) => {
+    console.debug("hub: " + message);
+  }, []);
 
-    useEffect(() => {
-        someHub.hub.addSomethingHappenedHandler(handleSomethingHappened);
+  useEffect(() => {
+    someHub.hub.addSomethingHappenedHandler(handleSomethingHappened);
 
-        return () => {
-            someHub.hub.removeSomethingHappenedHandler(handleSomethingHappened);
-        };
-    }, [handleSomethingHappened, someHub.hub]);
+    return () => {
+      someHub.hub.removeSomethingHappenedHandler(handleSomethingHappened);
+    };
+  }, [handleSomethingHappened, someHub.hub]);
 
-    return (
-        <>...</>
-    );
+  return <>...</>;
 };
 ```
