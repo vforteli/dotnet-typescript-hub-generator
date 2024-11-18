@@ -44,10 +44,12 @@ function App() {
 export const SomeComponent = () => {
   const someHub = useSomeHubClient();
 
+  // Wrap in callback to be able to remove handler in useEffect
   const handleSomethingHappened = useCallback((message: string | null) => {
     console.debug("hub: " + message);
   }, []);
 
+  // Add handler for a callback. The handler must be removed explicitly or duplicates will be added on re-renders
   useEffect(() => {
     someHub.hub.addSomethingHappenedHandler(handleSomethingHappened);
 
@@ -55,6 +57,11 @@ export const SomeComponent = () => {
       someHub.hub.removeSomethingHappenedHandler(handleSomethingHappened);
     };
   }, [handleSomethingHappened, someHub.hub]);
+
+  // Invoke a hub method
+  const doSomething = () => {
+    someHub.hub.doSomething({ somePayload: "hello from component!" });
+  };
 
   return <>...</>;
 };
