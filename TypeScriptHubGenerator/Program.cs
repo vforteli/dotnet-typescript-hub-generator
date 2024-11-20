@@ -29,11 +29,11 @@ rootCommand.SetHandler(
             ? assemblyPath
             : Path.Combine(Environment.CurrentDirectory, assemblyPath);
 
-        var outputFolderAbsolut = Path.IsPathRooted(outputFolder)
+        var outputFolderAbsolute = Path.IsPathRooted(outputFolder)
             ? outputFolder
             : Path.Combine(Environment.CurrentDirectory, outputFolder);
 
-        await HubGenerator.CreateHubFilesAsync(assemblyPathAbsolute, outputFolder, createReactContext);
+        await HubGenerator.CreateHubFilesAsync(assemblyPathAbsolute, outputFolderAbsolute, createReactContext);
     },
     assemblyPathOption, outputFolderOption, createReactContextOption);
 
